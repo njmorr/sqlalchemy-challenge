@@ -123,7 +123,7 @@ def start(start):
 
     # Queries
     start_data = session.query(func.min(Measurement.tobs),func.max(Measurement.tobs),func.avg(Measurement.tobs)).\
-                            filter(Measurement.date == "2015-03-06").all()
+                            filter(Measurement.date == start).all()
     session.close() 
     
     start_characteristics = []
@@ -143,8 +143,8 @@ def start_end(start,end):
 
     # Queries
     start_data = session.query(func.min(Measurement.tobs),func.max(Measurement.tobs),func.avg(Measurement.tobs)).\
-                            filter(Measurement.date > "2015-03-06").\
-                            filter(Measurement.date <= "2016-11-09").all()
+                            filter(Measurement.date > start).\
+                            filter(Measurement.date <= end).all()
     session.close()
 
     start_characteristics = []
