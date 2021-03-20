@@ -102,8 +102,15 @@ def temp():
     last_date = first_date - pd.DateOffset(years=1)
     last_date = (last_date).date()
     
+    station_activity = session.query(Measurement.station, func.count(Measurement.station))\
+                                .group_by(Measurement.station).order_by(Measurement.station.desc()).all()
+
+    station_activity = sorted(station_activity, key=lambda x:x[1], reverse=True)
+    station_id = station_activity[0][0]
+
     last_year_temp = session.query(Measurement.date, Measurement.station, Measurement.tobs).\
-                    filter(Measurement.date >= last_date).all()
+                    filter(Measurement.date >= last_date).\
+                    filter(Measurement.station == station_id).all()
     session.close()
 
     observed_temp = []
